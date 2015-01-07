@@ -55,9 +55,11 @@ class ViewController: UIViewController ,UITableViewDataSource, UITableViewDelega
         
         var shotImage: UIImage = UIImage()
         
-        for index in 0...49 {
+        var cell: UITableViewCell
+        
+        for index in 0...20 {
 
-            let cell: UITableViewCell = self.tableView(myTableView, cellForRowAtIndexPath: NSIndexPath(forRow: index, inSection: 0))
+            cell = self.tableView(myTableView, cellForRowAtIndexPath: NSIndexPath(forRow: index, inSection: 0))
             
             let image0: UIImage = self.captureView(cell)
             
@@ -73,6 +75,8 @@ class ViewController: UIViewController ,UITableViewDataSource, UITableViewDelega
         }
         
         shotImageView.image = shotImage
+        
+        UIImageWriteToSavedPhotosAlbum(shotImage, self, nil, nil)
 
     }
     
@@ -87,16 +91,18 @@ class ViewController: UIViewController ,UITableViewDataSource, UITableViewDelega
         
         let rect:CGRect = aView.frame
         
-        UIGraphicsBeginImageContext(rect.size)
+        /// 解决图片模糊掉的问题
+        UIGraphicsBeginImageContextWithOptions(rect.size, false,  UIScreen.mainScreen().scale)
+//        UIGraphicsBeginImageContext(rect.size)
         
-        var context:CGContextRef = UIGraphicsGetCurrentContext()
+        let context:CGContextRef = UIGraphicsGetCurrentContext()
         
         aView.layer.renderInContext(context)
         
-        var resultingImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()
+        let resultingImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()
         
         UIGraphicsEndImageContext()
-        
+    
         return resultingImage
     }
     /**
@@ -108,13 +114,15 @@ class ViewController: UIViewController ,UITableViewDataSource, UITableViewDelega
         
         let size = CGSizeMake(aImage1.size.width, aImage1.size.height + aImage2.size.height)
         
-        UIGraphicsBeginImageContext(size);
+        /// 解决图片模糊掉的问题
+        UIGraphicsBeginImageContextWithOptions(size, false,  UIScreen.mainScreen().scale)
+//        UIGraphicsBeginImageContext(size);
         
         aImage1.drawInRect(CGRectMake(0, 0, aImage1.size.width, aImage1.size.height))
         
         aImage2.drawInRect(CGRectMake(0, aImage1.size.height, aImage2.size.width, aImage2.size.height))
         
-        var resultingImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()
+        let resultingImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()
         
         UIGraphicsEndImageContext()
         
