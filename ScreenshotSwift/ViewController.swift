@@ -45,7 +45,7 @@ class ViewController: UIViewController ,UITableViewDataSource, UITableViewDelega
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 50;
+        return 20;
     }
 
     /**
